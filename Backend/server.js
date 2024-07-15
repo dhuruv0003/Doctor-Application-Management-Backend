@@ -58,3 +58,5 @@ app.listen(PORT, () => {
     }));
 
     require('./Config/database').dbConnect();
+
+    require('./Config/cloudinary').cloudinaryConnect()
