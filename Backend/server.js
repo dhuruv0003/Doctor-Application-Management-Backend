@@ -56,3 +56,5 @@ app.listen(PORT, () => {
       useTempFiles:true,
       tempFileDir:'/tmp/'
     }));
+
+    require('./Config/database').dbConnect();
