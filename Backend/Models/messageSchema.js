@@ -2,17 +2,17 @@ const mongoose=require('mongoose')
 const validator = require('validator')
 
 const messageSchema=new mongoose.Schema({
-    firstName:{
+    FirstName:{
         type:String,
         required:true,
         minLength:[3,"First Name must contain at least 3 characters"]
     },
-    lastName:{
+    LastName:{
         type:String,
         required:true,
         minLength:[3,"First Name must contain at least 3 characters"]
     },
-    email:{
+    Email:{
         type:String,
         required:true,
         // validate to check wheteher the 
@@ -25,7 +25,7 @@ const messageSchema=new mongoose.Schema({
         minLength:[10, "Phone Number length must contain 10 digits"],
         maxLength:[10, "Phone Number length must contain 10 digits"]
     },
-    message:{
+    Message:{
        
         type:String,
         required:true,
@@ -33,5 +33,5 @@ const messageSchema=new mongoose.Schema({
     }
 })
 
-module.exports=mongoose.model("message",messageSchema);
+module.exports=mongoose.model("messageMod",messageSchema);
 

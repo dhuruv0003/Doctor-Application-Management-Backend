@@ -57,6 +57,9 @@ app.listen(PORT, () => {
       tempFileDir:'/tmp/'
     }));
 
+    const messageRoute=require('./Routes/messageRoute')
+    app.use('/api/v1',messageRoute);
+
     require('./Config/database').dbConnect();
 
     require('./Config/cloudinary').cloudinaryConnect()
