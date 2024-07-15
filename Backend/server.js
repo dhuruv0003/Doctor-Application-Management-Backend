@@ -58,7 +58,7 @@ app.listen(PORT, () => {
     }));
 
     const messageRoute=require('./Routes/messageRoute')
-    app.use('/api/v1',messageRoute);
+    app.use('/api/v1/message',messageRoute);
 
     require('./Config/database').dbConnect();
 
