@@ -1,5 +1,5 @@
-const mongoose=require('mongoose')
-const validator = require('validator')
+import mongoose from "mongoose";
+import validator from "validator";
 
 const messageSchema=new mongoose.Schema({
     FirstName:{
@@ -25,13 +25,12 @@ const messageSchema=new mongoose.Schema({
         minLength:[10, "Phone Number length must contain 10 digits"],
         maxLength:[10, "Phone Number length must contain 10 digits"]
     },
-    Message:{
-       
+    message:{
         type:String,
         required:true,
         minLength:[10, "Message Number length must contain 10 characters"],
     }
 })
 
-module.exports=mongoose.model("messageMod",messageSchema);
+export const Message =mongoose.model("Message",messageSchema);
 

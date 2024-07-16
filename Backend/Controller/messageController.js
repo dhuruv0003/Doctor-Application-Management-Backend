@@ -1,15 +1,15 @@
-const {MessageMod}=require('../Models/messageSchema')
-const {catchAsyncError}=require('../MiddleWares/catchAsyncErrors')
-const ErrorHandler=require('../MiddleWares/errorMiddleWare')
+import { Message } from "../Models/messageSchema.js";
+import { catchAsyncErrors } from "../MiddleWares/catchAsyncErrors.js";
+import ErrorHandler from '../MiddleWares/errorMiddleWare.js'
 
-exports.sendMessage=catchAsyncError(async(req,res,next)=>{
+export const sendMessage=catchAsyncErrors(async(req,res,next)=>{
 
     //Fetch data from req.body
-    const {FirstName,LastName,Email,Phone,Message}=req.body;
+    const {FirstName,LastName,Email,Phone,message}=req.body;
 
     // check if above parameters exists or not
 
-    if(!FirstName || !LastName || !Email || !Phone || !Message){
+    if(!FirstName || !LastName || !Email || !Phone || !message){
         // return res.status(401).json({
         //     success:false,
         //     message:"Icomplete Data in the request"
@@ -19,8 +19,8 @@ exports.sendMessage=catchAsyncError(async(req,res,next)=>{
 
     //Create entry in database
 
-    const dbEntry=await MessageMod.create({
-        FirstName,LastName,Email,Phone,Message
+    const dbEntry=await Message.create({
+        FirstName,LastName,Email,Phone,message
     })
     return res.status(200).json({
         success:true,

@@ -3,11 +3,10 @@ import express from "express"
 import cookieParser from "cookie-parser";
 
 import cors from "cors";
-
 import 'dotenv/config'
 
 import fileUpload from "express-fileupload";
-import { errorMiddleware } from "./MiddleWares/errorMiddleWare";
+import { errorMiddleware } from "./MiddleWares/errorMiddleWare.js";
 //            or
 
 // import express from "express";
@@ -16,15 +15,13 @@ import { errorMiddleware } from "./MiddleWares/errorMiddleWare";
 
 const app = express();
 
-PORT=process.env.PORT 
-
+const PORT=process.env.PORT 
 app.listen(PORT, () => {
   console.log(`server liteneing on post https://localhost:${PORT}`);
 });
 
 
 // MiddlWares 
-
 
     // cors is used to connect frontend to backend
 
@@ -63,14 +60,14 @@ app.listen(PORT, () => {
       tempFileDir:'/tmp/'
     }));
 
-    import  messageRoute from './Routes/messageRoute'
+    import  messageRoute from './Routes/messageRoute.js'
     app.use('/api/v1/message',messageRoute);
 
-    import {dbConnect} from  './Config/database'
+    import {dbConnect} from  './Config/database.js'
 
     dbConnect();
 
-    import {cloudinaryConnect} from "./Config/cloudinary"
+    import {cloudinaryConnect} from "./Config/cloudinary.js"
     cloudinaryConnect()
 
 

@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-require("dotenv").config();
+import mongoose from "mongoose";
+import 'dotenv/config'
 
-exports.dbConnect = async () => {
+export const dbConnect = async () => {
   mongoose
     .connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
@@ -14,7 +14,7 @@ exports.dbConnect = async () => {
     })
     .catch((err) => {
       console.error(err);
-    //   process.exit(1);
+      process.exit(1);
     });
 };
 
