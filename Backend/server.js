@@ -1,8 +1,13 @@
-const express=require("express")
-require('dotenv').config()
-const cors=require('cors')
-const cookieParser= require('cookie-parser')
-const fileUpload=require('express-fileupload')
+import express from "express"
+
+import cookieParser from "cookie-parser";
+
+import cors from "cors";
+
+import 'dotenv/config'
+
+import fileUpload from "express-fileupload";
+import { errorMiddleware } from "./MiddleWares/errorMiddleWare";
 //            or
 
 // import express from "express";
@@ -51,15 +56,22 @@ app.listen(PORT, () => {
 
     //Eg=> Parsed result: { user: { name: 'John', age: 30 } }
 
+  
 
     app.use(fileUpload({
       useTempFiles:true,
       tempFileDir:'/tmp/'
     }));
 
-    const messageRoute=require('./Routes/messageRoute')
+    import  messageRoute from './Routes/messageRoute'
     app.use('/api/v1/message',messageRoute);
 
-    require('./Config/database').dbConnect();
+    import {dbConnect} from  './Config/database'
 
-    require('./Config/cloudinary').cloudinaryConnect()
+    dbConnect();
+
+    import {cloudinaryConnect} from "./Config/cloudinary"
+    cloudinaryConnect()
+
+
+    app.use(errorMiddleware);

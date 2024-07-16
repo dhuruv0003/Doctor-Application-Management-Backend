@@ -1,6 +1,8 @@
-const MessageMod=require('../Models/messageSchema')
+const {MessageMod}=require('../Models/messageSchema')
+const {catchAsyncError}=require('../MiddleWares/catchAsyncErrors')
+const ErrorHandler=require('../MiddleWares/errorMiddleWare')
 
-exports.sendMessage=async(req,res)=>{
+exports.sendMessage=catchAsyncError(async(req,res,next)=>{
 
     //Fetch data from req.body
     const {FirstName,LastName,Email,Phone,Message}=req.body;
@@ -8,10 +10,11 @@ exports.sendMessage=async(req,res)=>{
     // check if above parameters exists or not
 
     if(!FirstName || !LastName || !Email || !Phone || !Message){
-        return res.status(401).json({
-            success:false,
-            message:"Icomplete Data in the request"
-        });
+        // return res.status(401).json({
+        //     success:false,
+        //     message:"Icomplete Data in the request"
+        // });
+        return next(new ErrorHandler("Please Fill full Form",400))
     }
 
     //Create entry in database
@@ -24,4 +27,4 @@ exports.sendMessage=async(req,res)=>{
         message:"Database Entry created Successfully",
         dbEntry
     })
-}
+})
