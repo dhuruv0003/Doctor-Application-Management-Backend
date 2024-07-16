@@ -17,12 +17,16 @@ class ErrorHandler extends Error {
       super(message);
       this.statusCode = statusCode;
     }
-  }
+}
+// When an instance of ErrorHandler is created, it calls the constructor of the Error class with the message parameter using super(message), and then it sets an additional property statusCode.
   
   export const errorMiddleware = (err, req, res, next) => {
+
+    // default values for err.message and statuscode 
     err.message = err.message || "Internal Server Error";
     err.statusCode = err.statusCode || 500;
   
+    // Duplicate Key Error (MongoDB)
     if (err.code === 11000) {
       const message = `Duplicate ${Object.keys(err.keyValue)} Entered`,
         err = new ErrorHandler(message, 400);
@@ -40,12 +44,17 @@ class ErrorHandler extends Error {
         err = new ErrorHandler(message, 400);
     }
   
-    const errorMessage = err.errors
-      ? Object.values(err.errors)
-          .map((error) => error.message)
-          .join(" ")
-      : err.message;
-  
+    console.log(err.message);
+    // err is an object, with nested object errors, where all the errors are stored, i.e firstname error, lastname, phome,email, message, etc, which themseves are object, but we need only values of these errors object
+
+
+    // a. Object.values(err.errors): This creates an array of all the values in the err.errors 
+    // .map((error) => error.message): This maps over each error in the array, extracting the message property from each error object.
+    // c. .join(" "): This joins all the error messages into a single string, with spaces between each message.
+
+    const errorMessage= err.errors ?
+     Object.values(err.errors).map(error=>error.message).join(', ') : err.message
+
     return res.status(err.statusCode).json({
       success: false,
       // message: err.message,

@@ -5,12 +5,13 @@ const messageSchema=new mongoose.Schema({
     FirstName:{
         type:String,
         required:true,
-        minLength:[3,"First Name must contain at least 3 characters"]
+        //the second part of array is the error, tha occurs.
+        minLength:[3,"FirstName must contain at least 3 characters"]
     },
     LastName:{
         type:String,
         required:true,
-        minLength:[3,"First Name must contain at least 3 characters"]
+        minLength:[3,"LastName must contain at least 3 characters"]
     },
     Email:{
         type:String,

@@ -23,6 +23,10 @@ app.listen(PORT, () => {
 
 // MiddlWares 
 
+
+    app.use(cookieParser())
+    app.use(express.json())
+
     // cors is used to connect frontend to backend
 
     // CORS (Cross-Origin Resource Sharing) is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the resource originated. This is crucial for enabling web applications to communicate with each other across different origins.
@@ -45,15 +49,10 @@ app.listen(PORT, () => {
     }
     app.use(cors(corsOptions))
 
-    app.use(cookieParser())
-    app.use(express.json())
-
     app.use(express.urlencoded({extended:true}))
     // express.urlencoded() uses querystring library is used to parse urlencoded data and parse nested objects(i.e objects within objects )
 
     //Eg=> Parsed result: { user: { name: 'John', age: 30 } }
-
-  
 
     app.use(fileUpload({
       useTempFiles:true,
@@ -64,7 +63,6 @@ app.listen(PORT, () => {
     app.use('/api/v1/message',messageRoute);
 
     import {dbConnect} from  './Config/database.js'
-
     dbConnect();
 
     import {cloudinaryConnect} from "./Config/cloudinary.js"
