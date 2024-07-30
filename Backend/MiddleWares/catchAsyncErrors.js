@@ -5,8 +5,8 @@
 // 3.  It ensures that any errors occurring in theFunction are caught and passed to the next function, which will then invoke the error-handling middleware.
 
 export const catchAsyncErrors = (theFunction) => {
-   return (req,res,next)=>{
-      Promise.resolve(theFunction(req,res,next)).catch(next)
+   return function(req,res,next){
+      theFunction(req,res,next).catch(err=>next(err))
    }
  };
 
