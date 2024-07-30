@@ -1,4 +1,4 @@
-import ErrorHandler from "./ErrorHandler";
+import ErrorHandler from "./ErrorHandler.js";
 
 //class in js=>
 //Eg=> 
@@ -23,19 +23,19 @@ import ErrorHandler from "./ErrorHandler";
     // Duplicate Key Error (MongoDB)
     if (err.code === 11000) {
       const newMessage = `Duplicate ${Object.keys(err.keyValue)} Entered`,
-        err = new ErrorHandler(newMessage, 400);
+        err = new ErrorHandler(400,newMessage);
     }
     if (err.name === "JsonWebTokenError") {
       const newMessage = `Json Web Token is invalid, Try again!`;
-      err = new ErrorHandler(newMessage, 400);
+      err = new ErrorHandler(400,newMessage);
     }
     if (err.name === "TokenExpiredError") {
       const newMessage = `Json Web Token is expired, Try again!`;
-      err = new ErrorHandler(newMessage, 400);
+      err = new ErrorHandler(400,newMessage);
     }
     if (err.name === "CastError") {
       const newMessage = `Invalid ${err.path}`,
-        err = new ErrorHandler(newMessage, 400);
+        err = new ErrorHandler(400,newMessage);
     }
   
     console.log(message);
@@ -64,8 +64,7 @@ import ErrorHandler from "./ErrorHandler";
     //     },
 
     const errorMessage= err.errors ? Object.values(err.errors).map(error=>error.message).join(', ') : message
-
-    return res.status(err.statusCode).json({
+    return res.status(status).json({
       success: false,
       // message: message,
       message: errorMessage,

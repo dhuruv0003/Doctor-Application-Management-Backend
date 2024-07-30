@@ -15,7 +15,7 @@ export const sendMessage=catchAsyncErrors(async(req,res,next)=>{
         //     success:false,
         //     message:"Icomplete Data in the request"
         // });
-        return next(new ErrorHandler("Please Fill full Form",400))
+        return next(new ErrorHandler(400,"Please Fill full Form"))
     }
 
     //Create entry in database
