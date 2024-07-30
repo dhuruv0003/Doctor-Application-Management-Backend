@@ -1,6 +1,7 @@
 import { Message } from "../Models/messageSchema.js";
 import { catchAsyncErrors } from "../MiddleWares/catchAsyncErrors.js";
-import ErrorHandler from '../MiddleWares/errorMiddleWare.js'
+import ErrorHandler from "../MiddleWares/ErrorHandler.js";
+
 
 export const sendMessage=catchAsyncErrors(async(req,res,next)=>{
 
