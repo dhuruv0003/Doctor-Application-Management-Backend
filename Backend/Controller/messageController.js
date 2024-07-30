@@ -19,7 +19,6 @@ export const sendMessage=catchAsyncErrors(async(req,res,next)=>{
     }
 
     //Create entry in database
-
     const dbEntry=await Message.create({
         FirstName,LastName,Email,Phone,message
     })
