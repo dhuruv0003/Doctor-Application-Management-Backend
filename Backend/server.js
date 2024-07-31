@@ -62,8 +62,11 @@ app.listen(PORT, () => {
     import  messageRoute from './Routes/messageRoute.js'
     app.use('/api/v1/message',messageRoute);
 
+    import userRoute from './Routes/userRoute.js'
+    app.use('/api/v1/user',userRoute)
+
     import {dbConnect} from  './Config/database.js'
-    dbConnect();
+    dbConnect()
 
     import {cloudinaryConnect} from "./Config/cloudinary.js"
     cloudinaryConnect()

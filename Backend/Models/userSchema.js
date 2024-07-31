@@ -26,37 +26,30 @@ const userSchema=mongoose.Schema({
         minLength:[10, "Phone Number length must contain 10 digits"],
         maxLength:[10, "Phone Number length must contain 10 digits"]
     },
-    Phone:{
-        // here type is kept string in order to define minLength and maxLength
-        type:String,
-        required:true,
-        minLength:[10, "Phone Number length must contain 10 digits"],
-        maxLength:[10, "Phone Number length must contain 10 digits"]
-    },
+
     NIC:{
         type:String,
         required:true,
-        minLength:[13, "Phone Number length must contain 13 digits"],
-        minLength:[13, "Phone Number length must contain 13 digits"],
+        minLength:[13, "NIC length must contain 13 digits"],
+        minLength:[13, "NIC length must contain 13 digits"],
     },
-    dob:{
-        type:String,
+    DOB:{
+        type:Date,
         required:true,
-        minLength:[13, "Phone Number length must contain 13 digits"],
     }
-    ,gender:{
+    ,Gender:{
         type:String,
         required:true,
-        enum:[Male, Female]
+        enum:["Male", "Female"]
     },
-    password:{
+    Password:{
         type:String,
         required:true,
         minLength:[8, "password length must contain at lewast 8 characters"],
         // user will get all details but not password 
         select:false
     },
-    role:{
+    Role:{
         type:String,
         required:true,
         enum:["Admin","Patient"]
