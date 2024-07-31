@@ -49,7 +49,7 @@ const userSchema=mongoose.Schema({
         required:true,
         enum:[Male, Female]
     },
-    pass:{
+    password:{
         type:String,
         required:true,
         minLength:[8, "password length must contain at lewast 8 characters"],
@@ -71,4 +71,4 @@ const userSchema=mongoose.Schema({
     
 })
 
-export const User=mongoose.model("User",userSchema) 
+export const UserMod=mongoose.model("User",userSchema) 
