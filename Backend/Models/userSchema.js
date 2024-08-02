@@ -34,7 +34,7 @@ const userSchema=mongoose.Schema({
         minLength:[13, "NIC length must contain 13 digits"],
     },
     DOB:{
-        type:Date,
+        type:String,
         required:true,
     }
     ,Gender:{
