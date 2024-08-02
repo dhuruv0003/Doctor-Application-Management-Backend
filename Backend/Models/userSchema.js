@@ -47,7 +47,7 @@ const userSchema=mongoose.Schema({
         required:true,
         minLength:[8, "password length must contain at lewast 8 characters"],
         // user will get all details but not password 
-        select:false
+     
     },
     Role:{
         type:String,
