@@ -133,3 +133,12 @@ export const adminRegister = catchAsyncErrors(async (req, res, next) => {
       doctors
     })
   })
+
+  export const getUserDetails=catchAsyncErrors(async(req,res,next)=>{
+    // authenticate karne ke baad to req.user me jo bhi details hai usko display karo, i.e tokens' payload 
+    const user=req.user
+    return res.status(200).json({
+      success:true,
+      user
+    })
+  })
