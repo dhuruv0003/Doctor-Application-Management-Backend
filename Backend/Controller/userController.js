@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import bcrypt from "bcrypt";
 
-export const register = catchAsyncErrors(async (req, res, next) => {
+export const PatientRegister = catchAsyncErrors(async (req, res, next) => {
   const {
     FirstName,
     LastName,
@@ -33,7 +33,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
 
   const userExist = await UserMod.findOne({ Email });
   if (userExist) {
-    return next(new ErrorHandler(400, "user already exists"));
+    return next(new ErrorHandler(400,  `${userExist.role} with this email already exists`));
   }
 
   let hashedPassword;
@@ -79,8 +79,8 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
     next(new ErrorHandler(400, "Invalid password or email"));
   }
 
-  if(Role!==userExist.Role){
-    next(new ErrorHandler(400,"Role does not match"))
+  if (Role !== userExist.Role) {
+    next(new ErrorHandler(400, "Role does not match"));
   }
 
   const payload = {
@@ -96,14 +96,15 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
 
     userExist = userExist.toObject();
     userExist.token = token;
-    userExist.password = undefined;
+    userExist.Password = undefined;
 
-    const options={
-        expires:new Date(Date.now()+3*24*60*60*1000),
-        httpOnly:true
-    }
-    const cookieToken=userExist.Role==="Admin"?"AdminToken":"PatientToken"
-    return res.cookie(cookieToken,token,options).status(202).json({
+    const options = {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    };
+    const cookieToken =
+      userExist.Role === "Admin" ? "AdminToken" : "PatientToken";
+    return res.cookie(cookieToken, token, options).status(202).json({
       success: true,
       token,
       userExist,
@@ -114,5 +115,33 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+export const adminRegister = catchAsyncErrors(async (req, res, next) => {
+        const {FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password}=req.body;
 
-export const 
+        if(!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password ){
+            next(new ErrorHandler(400,"please fill details properly"));
+        }
+
+        const AdminExist=await UserMod.findOne({Email})
+
+        if(AdminExist){
+            next(new ErrorHandler(400, `${AdminExist.Role} with this email Already exists`))
+        }
+
+        let hashedPassword;
+        try {
+            hashedPassword=await bcrypt.hash(Password,10);
+        } catch (error) {
+            next(new ErrorHandler(400,"Password cannot be hashed"))
+        }
+        
+        const dbEntry=await UserMod.create({
+            FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password:hashedPassword,Role:"Admin"
+        })
+        return res.status(202).json({
+            success:true,
+            message:"Admin Registered Successfully"
+        })
+
+    }
+);
