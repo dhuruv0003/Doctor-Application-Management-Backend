@@ -72,6 +72,7 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
   if (Password != ConfirmPassword) {
     next(new ErrorHandler(400, "Password does not match"));
   }
+
   let userExist = await UserMod.findOne({ Email });
 
   if (!userExist) {
@@ -97,8 +98,8 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
         expires:new Date(Date.now()+3*24*60*60*1000),
         httpOnly:true
     }
-
-    return res.cookie("token",token,options).status(202).json({
+    const cookieToken=userExist.Role==="Admin"?"AdminToken":"PatientToken"
+    return res.cookie(cookieToken,token,options).status(202).json({
       success: true,
       token,
       userExist,
