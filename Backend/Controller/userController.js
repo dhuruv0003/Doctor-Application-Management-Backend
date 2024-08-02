@@ -6,34 +6,16 @@ import "dotenv/config";
 import bcrypt from "bcrypt";
 
 export const PatientRegister = catchAsyncErrors(async (req, res, next) => {
-  const {
-    FirstName,
-    LastName,
-    Email,
-    Phone,
-    NIC,
-    DOB,
-    Gender,
-    Password,
-    Role,
-  } = req.body;
-  if (
-    !FirstName ||
-    !LastName ||
-    !Email ||
-    !Phone ||
-    !NIC ||
-    !DOB ||
-    !Gender ||
-    !Password ||
-    !Role
-  ) {
+  const { FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password } = req.body;
+
+  if (!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password) 
+  {
     return next(new ErrorHandler(400, "please fill the form properly"));
   }
 
   const userExist = await UserMod.findOne({ Email });
   if (userExist) {
-    return next(new ErrorHandler(400,  `${userExist.role} with this email already exists`));
+    return next(new ErrorHandler(400,`${userExist.Role} with this email already exists`));
   }
 
   let hashedPassword;
@@ -44,21 +26,16 @@ export const PatientRegister = catchAsyncErrors(async (req, res, next) => {
   }
 
   const dbEntry = await UserMod.create({
-    FirstName,
-    LastName,
-    Email,
-    Phone,
-    NIC,
-    DOB,
-    Gender,
-    Password: hashedPassword,
-    Role,
+    FirstName, LastName, Email,Phone,NIC,DOB,Gender,Password: hashedPassword,Role:"Patient",
   });
 
-  return res.status(200).json({
+
+
+  return res.cookie("PatientToken",token,options).status(200).json({
     success: true,
     message: "DB entry created successfully",
     dbEntry,
+    
   });
 });
 
@@ -119,13 +96,13 @@ export const adminRegister = catchAsyncErrors(async (req, res, next) => {
         const {FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password}=req.body;
 
         if(!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password ){
-            next(new ErrorHandler(400,"please fill details properly"));
+            return next(new ErrorHandler(400,"please fill details properly"));
         }
 
         const AdminExist=await UserMod.findOne({Email})
 
         if(AdminExist){
-            next(new ErrorHandler(400, `${AdminExist.Role} with this email Already exists`))
+            return next(new ErrorHandler(400, `${AdminExist.Role} with this email Already exists`))
         }
 
         let hashedPassword;
@@ -137,11 +114,22 @@ export const adminRegister = catchAsyncErrors(async (req, res, next) => {
         
         const dbEntry=await UserMod.create({
             FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password:hashedPassword,Role:"Admin"
-        })
-        return res.status(202).json({
-            success:true,
-            message:"Admin Registered Successfully"
-        })
-
+        }) 
+       
+        return res.status(200).json({
+          success: true,
+          message: "DB entry created successfully",
+          dbEntry,
+        });
+      
     }
 );
+
+
+  export const getAllDoctors=catchAsyncErrors(async(req,res,next)=>{
+    const doctors=await UserMod.find({Role:"Doctor"});
+    return res.status(200).json({
+      success:true,
+      doctors
+    })
+  })
