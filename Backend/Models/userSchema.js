@@ -34,7 +34,7 @@ const userSchema=mongoose.Schema({
         minLength:[13, "NIC length must contain 13 digits"],
     },
     DOB:{
-        type:String,
+        type:Date,
         required:true,
     }
     ,Gender:{
@@ -42,6 +42,7 @@ const userSchema=mongoose.Schema({
         required:true,
         enum:["Male", "Female"]
     },
+
     Password:{
         type:String,
         required:true,

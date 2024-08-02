@@ -66,10 +66,10 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
   const { Email, Password, ConfirmPassword, Role } = req.body;
 
   if (!Email || !Password || !ConfirmPassword || !Role) {
-    next(new ErrorHandler(400, "Please fill details carefully"));
+    next(new ErrorHandler(400, "Please fill details properly"));
   }
 
-  if (Password != ConfirmPassword) {
+  if (Password !== ConfirmPassword) {
     next(new ErrorHandler(400, "Password does not match"));
   }
 
@@ -77,6 +77,10 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
 
   if (!userExist) {
     next(new ErrorHandler(400, "Invalid password or email"));
+  }
+
+  if(Role!==userExist.Role){
+    next(new ErrorHandler(400,"Role does not match"))
   }
 
   const payload = {
@@ -109,3 +113,6 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
     next(new ErrorHandler(400, "Invalid password"));
   }
 });
+
+
+export const 
