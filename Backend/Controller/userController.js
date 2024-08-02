@@ -68,10 +68,12 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
   if (!Email || !Password || !ConfirmPassword || !Role) {
     next(new ErrorHandler(400, "Please fill details carefully"));
   }
+
   if (Password != ConfirmPassword) {
     next(new ErrorHandler(400, "Password does not match"));
   }
   let userExist = await UserMod.findOne({ Email });
+
   if (!userExist) {
     next(new ErrorHandler(400, "Invalid password or email"));
   }
@@ -91,13 +93,18 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
     userExist.token = token;
     userExist.password = undefined;
 
-    return res.status(202).json({
+    const options={
+        expires:new Date(Date.now()+3*24*60*60*1000),
+        httpOnly:true
+    }
+
+    return res.cookie("token",token,options).status(202).json({
       success: true,
       token,
       userExist,
       message: "User Logged in successfully",
     });
   } else {
-    next(new ErrorHandler(400, "Error aa gya"));
+    next(new ErrorHandler(400, "Invalid password"));
   }
 });
