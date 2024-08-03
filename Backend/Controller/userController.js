@@ -70,7 +70,7 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
   }
 
   const payload = {
-    email: userExist.email,
+    email: userExist.Email,
     id: userExist._id,
     role: userExist.Role,
   };

@@ -10,6 +10,6 @@ router.post('/login',userLogin);
 router.post('/admin/addnew',isAdminAuthentication,adminRegister)
 router.get('/doctor',getAllDoctors)
 router.get('/admin/me',isAdminAuthentication,getUserDetails)
-router.get('/admin/me',isPatientAuthentication,getUserDetails)
+router.get('/patient/me',isPatientAuthentication,getUserDetails)
 
 export default router;
