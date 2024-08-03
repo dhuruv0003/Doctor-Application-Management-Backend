@@ -6,7 +6,7 @@ import { UserMod } from "../Models/userSchema.js";
 
 export const isAdminAuthentication=catchAsyncErrors(async(req,res,next)=>{
     // Note=> in req.cookies.adminToken, the admintoken is the value tha we gave in cookieToken, which will be Patienttoken in case of role = patient 
-    const token=req.cookies.adminToken;
+    const token=req.cookies.AdminToken;
 
     if(!token){
         return next(new ErrorHandler(400,"Admin Not authorised"));
