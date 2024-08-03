@@ -138,7 +138,6 @@ export const adminRegister = catchAsyncErrors(async (req, res, next) => {
     }
 );
 
-
   export const getAllDoctors=catchAsyncErrors(async(req,res,next)=>{
     const doctors=await UserMod.find({Role:"Doctor"});
     return res.status(200).json({
