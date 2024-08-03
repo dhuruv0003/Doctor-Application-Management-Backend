@@ -15,7 +15,7 @@ import { errorMiddleware } from "./MiddleWares/errorMiddleWare.js";
 
 const app = express();
 
-const PORT=process.env.PORT 
+const PORT=process.env.PORT || 6000
 app.listen(PORT, () => {
   console.log(`server liteneing on post https://localhost:${PORT}`);
 });

@@ -6,11 +6,15 @@ import "dotenv/config";
 import bcrypt from "bcrypt";
 
 export const PatientRegister = catchAsyncErrors(async (req, res, next) => {
-  const { FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password } = req.body;
+  const { FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password ,ConfirmPassword} = req.body;
 
-  if (!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password) 
+  if (!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password || !ConfirmPassword) 
   {
     return next(new ErrorHandler(400, "please fill the form properly"));
+  }
+
+  if(ConfirmPassword!==Password){
+    return next(new ErrorHandler(400,"Password and Confirm password do not match"))
   }
 
   const userExist = await UserMod.findOne({ Email });
@@ -25,30 +29,35 @@ export const PatientRegister = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(400, "Password cannot be hashed"));
   }
 
-  const dbEntry = await UserMod.create({
+  let dbEntry = await UserMod.create({
     FirstName, LastName, Email,Phone,NIC,DOB,Gender,Password: hashedPassword,Role:"Patient",
   });
 
+  const token=jwt.sign({id:dbEntry._id, Role:dbEntry.Role},process.env.JWT_SECRET_KEY,{
+    expiresIn: "2h",
+  })
 
+  const options={ expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+    httpOnly: true}
 
-  return res.cookie("PatientToken",token,options).status(200).json({
+  const cookieToken=dbEntry.Role==="Patient"?"PatientToken":"AdminToken"
+
+  return res.cookie(cookieToken,token,options).status(200).json({
     success: true,
     message: "DB entry created successfully",
     dbEntry,
-    
+    token
   });
 });
 
 export const userLogin = catchAsyncErrors(async (req, res, next) => {
-  const { Email, Password, ConfirmPassword, Role } = req.body;
+  const { Email, Password, Role } = req.body;
 
-  if (!Email || !Password || !ConfirmPassword || !Role) {
+  if (!Email || !Password || !Role) {
     next(new ErrorHandler(400, "Please fill details properly"));
   }
 
-  if (Password !== ConfirmPassword) {
-    next(new ErrorHandler(400, "Password does not match"));
-  }
+ 
 
   let userExist = await UserMod.findOne({ Email });
 
@@ -93,10 +102,14 @@ export const userLogin = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const adminRegister = catchAsyncErrors(async (req, res, next) => {
-        const {FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password}=req.body;
+        const {FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password,ConfirmPassword}=req.body;
 
-        if(!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password ){
+        if(!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password || !ConfirmPassword){
             return next(new ErrorHandler(400,"please fill details properly"));
+        }
+
+        if(ConfirmPassword!==Password){
+          return next(new ErrorHandler(400,"Password and Confirm password do not match"))
         }
 
         const AdminExist=await UserMod.findOne({Email})

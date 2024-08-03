@@ -5,7 +5,7 @@ import { isAdminAuthentication, isPatientAuthentication } from "../MiddleWares/A
 
 const router=express.Router();
 
-router.post('/patient/register',PatientRegister);
+router.post('/patient/register',isPatientAuthentication,PatientRegister);
 router.post('/login',userLogin);
 router.post('/admin/addnew',isAdminAuthentication,adminRegister)
 router.get('/doctor',getAllDoctors)

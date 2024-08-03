@@ -55,10 +55,10 @@ const userSchema=mongoose.Schema({
         required:true,
         enum:["Admin","Patient"]
     },
-    doctorDepart:{
+    DoctorDepart:{
         type:String
     },
-    docAvatar:{
+    DocAvatar:{
         public_id:String,
         url:String
     }
