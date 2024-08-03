@@ -14,8 +14,8 @@ export const isAdminAuthentication=catchAsyncErrors(async(req,res,next)=>{
     // decoded is the payload From the jwt token
     const decoded=jwt.verify(token,process.env.JWT_SECRET_KEY)
 
-    req.user=await UserMod.findById(decoded.id)
-    if(req.user.Role!=="Admin"){
+    req.user=decoded
+    if(req.user.role!=="Admin"){
         return next(new ErrorHandler(403,`${req.user.Role} not authorized`,))
     }
     next();
@@ -31,8 +31,8 @@ export const isPatientAuthentication=catchAsyncErrors(async(req,res,next)=>{
     // decoded is the payload From the jwt token
     const decoded=jwt.verify(token,process.env.JWT_SECRET_KEY)
 
-    req.user=await UserMod.findById(decoded.id)
-    if(req.user.Role!=="Patient"){
+    req.user=decoded
+    if(req.user.role!=="Patient"){
         return next(new ErrorHandler(403,`${req.user.Role} not authorized`,))
     }
     next();
