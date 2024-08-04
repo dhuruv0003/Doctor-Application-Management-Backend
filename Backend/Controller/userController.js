@@ -54,7 +54,7 @@ import bcrypt from "bcrypt";
     const { Email, Password, Role } = req.body;
 
     if (!Email || !Password || !Role) {
-      next(new ErrorHandler(400, "Please fill details properly"));
+      return next(new ErrorHandler(400, "Please fill details properly"));
     }
 
   
@@ -62,11 +62,11 @@ import bcrypt from "bcrypt";
     let userExist = await UserMod.findOne({ Email });
 
     if (!userExist) {
-      next(new ErrorHandler(400, "Invalid password or email"));
+      return next(new ErrorHandler(400, "Invalid password or email"));
     }
 
     if (Role !== userExist.Role) {
-      next(new ErrorHandler(400, "Role does not match"));
+      return next(new ErrorHandler(400, "Role does not match"));
     }
 
     const payload = {
@@ -163,5 +163,16 @@ import bcrypt from "bcrypt";
     }).json({
       success:true,
       message:"User LoggedOut successfully"
+    })
+  })
+
+  export const logOutPatient=catchAsyncErrors(async (req,res,next) => {
+    const options={
+      httpOnly:true,
+      expires:new Date(Date.now())
+    }
+    return res.cookie("PatientToken",undefined,options).status(200).json({
+      success:true,
+      message:"Patient LoggedOut Successfully "
     })
   })
