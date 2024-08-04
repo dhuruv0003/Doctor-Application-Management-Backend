@@ -238,7 +238,7 @@ import cloudinary from 'cloudinary'
         return next(new ErrorHandler(500,"Failed To Upload Doctor Avatar To Cloudinary"))
       }
 
-      const dbEntry=await UserMod.create({
+      let dbEntry=await UserMod.create({
         FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password:hashedPassword,DoctorDepart,Role:"Doctor",
         DocAvatar:{
           public_id:cloudinaryResponse.public_id,

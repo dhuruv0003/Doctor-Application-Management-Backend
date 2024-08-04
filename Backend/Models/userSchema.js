@@ -53,7 +53,7 @@ const userSchema=mongoose.Schema({
     Role:{
         type:String,
         required:true,
-        enum:["Admin","Patient"]
+        enum:["Admin","Patient","Doctor"]
     },
     DoctorDepart:{
         type:String
