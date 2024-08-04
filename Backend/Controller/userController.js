@@ -183,5 +183,32 @@ import bcrypt from "bcrypt";
     if(!req.files || Object.keys(req.files).length==0){
       return next(new ErrorHandler(400,"Doctor Avtar Not Found"))
     }
+
+    const docAvtar=req.files.docAvtar;
+
+// in terms of extension 
+//     const supportedFiles=["jpg","png","jpeg","webp"]
+//     const fileType=docAvtar.name.split('.')[1].toLowerCase()
+//     if(!supportedFiles.includes(fileType)){
+//         return next(new ErrorHandler(400,"Filetype not supported "))
+//     }
+
+
+    //in terms of MIMETYPE (Multipurpose Internet Mail Extension)
+    // The MIMEType form image must be one of the following: image/bmp, image/jpeg, image/x-png; image/png, or image/gif.
+
+    const supportedFiles=["image/png","image/jpeg","image/jpg","image/webp"]
+
+    if(!supportedFiles.includes(docAvtar.mimetype)){
+      return next(new ErrorHandler(400,"File Format Not supported"))
+    }
+
+    const {FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password,ConfirmPassword,DoctorDepart}=req.body;
+
+     if(!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password || !ConfirmPassword || !DoctorDepart){
+              return next(new ErrorHandler(400,"please fill details properly"));
+          }
+
+
   }) 
 
