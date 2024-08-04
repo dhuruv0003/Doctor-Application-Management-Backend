@@ -176,5 +176,12 @@ import bcrypt from "bcrypt";
       message:"Patient LoggedOut Successfully "
     })
   })
-
   
+  export const addnewDoctor=catchAsyncErrors(async(req,res,next)=>{
+
+    //Agar req.files empty hai, ya req.files ki length =0 ha toh return error
+    if(!req.files || Object.keys(req.files).length==0){
+      return next(new ErrorHandler(400,"Doctor Avtar Not Found"))
+    }
+  }) 
+
