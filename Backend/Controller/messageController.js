@@ -28,3 +28,7 @@ export const sendMessage=catchAsyncErrors(async(req,res,next)=>{
         dbEntry
     })
 })
+
+export const getMessage=catchAsyncErrors(async(req,res,next)=>{
+    
+})
