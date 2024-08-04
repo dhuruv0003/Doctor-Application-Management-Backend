@@ -30,7 +30,7 @@ export const sendMessage=catchAsyncErrors(async(req,res,next)=>{
 })
 
 export const getMessage=catchAsyncErrors(async(req,res,next)=>{
-    const allMessage=Message.find();
+    const allMessage=await Message.find();
     res.status(200).json({
         success:true,
         message:"All messages are below",
