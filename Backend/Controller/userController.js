@@ -206,9 +206,9 @@ import cloudinary from 'cloudinary'
 
     const {FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password,ConfirmPassword,DoctorDepart}=req.body;
 
-     if(!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password || !ConfirmPassword || !DoctorDepart){
-              return next(new ErrorHandler(400,"please fill details properly"));
-      }
+    if(!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password || !ConfirmPassword || !DoctorDepart){
+         return next(new ErrorHandler(400,"please fill details properly"));
+    }
 
       const DoctorExist=await UserMod.findOne({Email})
 
