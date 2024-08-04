@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 
 import cors from "cors";
 import 'dotenv/config'
-
+import cloudinary from 'cloudinary'
 import fileUpload from "express-fileupload";
 import { errorMiddleware } from "./MiddleWares/errorMiddleWare.js";
 //            or
@@ -69,7 +69,7 @@ app.listen(PORT, () => {
     dbConnect()
 
     import {cloudinaryConnect} from "./Config/cloudinary.js"
-    cloudinaryConnect()
+    cloudinaryConnect();
 
 
     app.use(errorMiddleware);

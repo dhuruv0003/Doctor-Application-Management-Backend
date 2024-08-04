@@ -4,6 +4,7 @@ import { catchAsyncErrors } from "../MiddleWares/catchAsyncErrors.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import bcrypt from "bcrypt";
+import cloudinary from 'cloudinary'
 
   export const PatientRegister = catchAsyncErrors(async (req, res, next) => {
     const { FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password ,ConfirmPassword} = req.body;
@@ -207,7 +208,51 @@ import bcrypt from "bcrypt";
 
      if(!FirstName ||!LastName ||!Email ||!Phone ||!NIC ||!DOB ||!Gender ||!Password || !ConfirmPassword || !DoctorDepart){
               return next(new ErrorHandler(400,"please fill details properly"));
-          }
+      }
+
+      const DoctorExist=await UserMod.findOne({Email})
+
+      if(DoctorExist){
+        return next(new ErrorHandler(400,`${DoctorExist.Role} already exists with this Email`));
+      }
+
+      if(Password!==ConfirmPassword){
+        return next(new ErrorHandler(400,"Password and confirm password do not match"));
+      }
+
+      let hashedPassword
+      try {
+        hashedPassword=await bcrypt.hash(Password,10)
+      } catch (error) {
+        return next(new ErrorHandler(400,"PAssword cannot be hashed"));
+      }
+      // Uploading image to cloudinary
+      const folder="Dhuruv_Cloud"
+      const options={folder}
+      const cloudinaryResponse=await cloudinary.uploader.upload(docAvtar.tempFilePath,options)
+
+      console.log(cloudinaryResponse);
+      
+      if(!cloudinaryResponse || cloudinaryResponse.error){
+        console.error("Cloudinary error",cloudinaryResponse.error || "Unknown cloudinary error");
+        return next(new ErrorHandler(500,"Failed To Upload Doctor Avatar To Cloudinary"))
+      }
+
+      const dbEntry=await UserMod.create({
+        FirstName,LastName,Email,Phone,NIC,DOB,Gender,Password:hashedPassword,DoctorDepart,Role:"Doctor",
+        DocAvatar:{
+          public_id:cloudinaryResponse.public_id,
+          url:cloudinaryResponse.secure_url
+        }
+      })
+      dbEntry=dbEntry.toObject();
+      dbEntry.Password=undefined;
+
+      return res.status(200).json({
+        success:true,
+        message:"New Doctor Registered",
+        dbEntry
+      })
 
 
   }) 

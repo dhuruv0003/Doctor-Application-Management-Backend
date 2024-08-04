@@ -1,4 +1,4 @@
-import { adminRegister, getAllDoctors, getUserDetails, logOutAdmin, logOutPatient, PatientRegister,  userLogin } from "../Controller/userController.js";
+import { addnewDoctor, adminRegister, getAllDoctors, getUserDetails, logOutAdmin, logOutPatient, PatientRegister,  userLogin } from "../Controller/userController.js";
 
 import express from 'express'
 import { isAdminAuthentication, isPatientAuthentication } from "../MiddleWares/Auth.js";
@@ -13,5 +13,8 @@ router.get('/admin/me',isAdminAuthentication,getUserDetails)
 router.get('/patient/me',isPatientAuthentication,getUserDetails)
 router.get('/admin/logout',isAdminAuthentication,logOutAdmin)
 router.get('/patient/logout',isPatientAuthentication,logOutPatient)
+
+router.post('/doctor/register',isAdminAuthentication,addnewDoctor)
+
 
 export default router;
