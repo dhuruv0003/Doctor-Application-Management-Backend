@@ -176,3 +176,5 @@ import bcrypt from "bcrypt";
       message:"Patient LoggedOut Successfully "
     })
   })
+
+  
