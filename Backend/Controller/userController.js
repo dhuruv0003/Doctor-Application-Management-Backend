@@ -88,8 +88,7 @@ import cloudinary from 'cloudinary'
             expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
             httpOnly: true,
           };
-          const cookieToken =
-            userExist.Role === "Admin" ? "AdminToken" : "PatientToken";
+          const cookieToken = userExist.Role === "Admin" ? "AdminToken" : "PatientToken";
           return res.cookie(cookieToken, token, options).status(202).json({
             success: true,
             token,

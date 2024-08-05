@@ -13,8 +13,11 @@ export const isAdminAuthentication=catchAsyncErrors(async(req,res,next)=>{
     }
     // decoded is the payload From the jwt token
     const decoded=jwt.verify(token,process.env.JWT_SECRET_KEY)
-
+        
     req.user=await UserMod.findById(decoded.id)
+    // or 
+    // req.user=decoded
+
     req.user.Password=undefined;
     if(req.user.Role!=="Admin"){
         return next(new ErrorHandler(403,`${req.user.Role} not authorized`,))

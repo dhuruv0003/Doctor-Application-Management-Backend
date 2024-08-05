@@ -14,22 +14,28 @@ export const postAppointment=catchAsyncErrors(async(req,res,next)=>{
     // If there are more then one doctor in same department with same name, then raise error.
     // Note all the doctor's are register in userMod, so verify from there only
 
-    const isDoctorWithSameName=await UserMod.find({
+    const isDoctorConflict=await UserMod.find({
         FirstName:Doctor_firstName,
         LastName:Doctor_lastName,
         Role:"Doctor",
         DoctorDepart:Department
     })
+    // above code return array with doctor having same name 
 
-    if(isDoctorWithSameName.length===0){
+    if(isDoctorConflict.length===0){
         return next(new ErrorHandler(404,"Doctor with the given name not found"))
     }
 
-    if(isDoctorWithSameName.length>1){
+    if(isDoctorConflict.length>1){
         return next(new ErrorHandler(400,
-            "More than one doctor with given name exists in same department"
-        ))
-    }
+            "More than one doctor with given name exists in same department, please contact through email"
+        ));
+    };
+
+    // if any doctor found
+    const DoctorId=isDoctorConflict[0]._id
+    // jaise hi patient login krega, uska payload req.user me store ho jayega 
+    const PatientId=req.user.id
 
 
 })
