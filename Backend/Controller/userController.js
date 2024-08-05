@@ -228,8 +228,8 @@ import cloudinary from 'cloudinary'
           }
           // Uploading image to cloudinary
           const folder="Dhuruv_Cloud"
-          const options={folder}
-          const cloudinaryResponse=await cloudinary.uploader.upload(docAvtar.tempFilePath,options)
+         
+          const cloudinaryResponse=await cloudinary.uploader.upload(docAvtar.tempFilePath,{folder})
 
           console.log(cloudinaryResponse);
           
