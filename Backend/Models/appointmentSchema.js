@@ -61,8 +61,9 @@ const appointmentSchema=new mongoose.Schema({
         }
     },
     HasVisited:{
-        type:true,
-        required:true
+        // To check wether the user has earlier visited or not
+        type:Boolean,
+        default:false
     },
     DoctorId:{
         type:mongoose.Schema.ObjectId,
