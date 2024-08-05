@@ -42,15 +42,15 @@ const appointmentSchema=new mongoose.Schema({
         required:true,
         enum:["Male", "Female"]
     },
-    appointment_date:{
+    Appointment_date:{
         type:String,
         required :true,
     },
-    department:{
+    Department:{
         type:String,
         required:true
     },
-    doctorName:{
+    Doctor:{
         firstName:{
             type:String,
             required:true
@@ -60,23 +60,23 @@ const appointmentSchema=new mongoose.Schema({
             required:true
         }
     },
-    hasVisited:{
+    HasVisited:{
         type:true,
         required:true
     },
-    doctorId:{
+    DoctorId:{
         type:mongoose.Schema.ObjectId,
         required:true
     },
-    patientId:{
+    PatientId:{
         type:mongoose.Schema.ObjectId,
         required:true
     },
-    address:{
+    Address:{
         type:String,
         required:true
     },
-    status:{
+    Status:{
         type:String,
         enum:["Pending","Accepted","Rejected"],
         default:"Pending"
