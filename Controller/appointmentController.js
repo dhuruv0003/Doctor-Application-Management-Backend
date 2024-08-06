@@ -1,7 +1,7 @@
-import { catchAsyncErrors } from "../MiddleWares/catchAsyncErrors";
-import ErrorHandler from "../MiddleWares/ErrorHandler";
-import { AppointmentModel } from "../Models/appointMentSchema";
-import { UserMod } from "../Models/userSchema";
+import { catchAsyncErrors } from "../MiddleWares/catchAsyncErrors.js";
+import ErrorHandler from "../MiddleWares/ErrorHandler.js";
+import { AppointmentModel } from "../Models/appointMentSchema.js";
+import { UserMod } from "../Models/userSchema.js";
 
 
 export const postAppointment=catchAsyncErrors(async(req,res,next)=>{
@@ -36,6 +36,7 @@ export const postAppointment=catchAsyncErrors(async(req,res,next)=>{
     const DoctorId=isDoctorConflict[0]._id
     // jaise hi patient login k rega, uska payload req.user me store ho jayega 
     const PatientId=req.user._id
+
 
     const dbEntry=await AppointmentModel.create({
         FirstName,LastName,Email,Phone,NIC,DOB,Gender,Appointment_date,Department,

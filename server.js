@@ -65,6 +65,10 @@ app.listen(PORT, () => {
     import userRoute from './Routes/userRoute.js'
     app.use('/api/v1/user',userRoute)
 
+    import appointmentRoute from './Routes/appointmentRoute.js'
+
+    app.use('/api/v1/appointment',appointmentRoute)
+
     import {dbConnect} from  './Config/database.js'
     dbConnect()
 

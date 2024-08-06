@@ -43,7 +43,7 @@ const appointmentSchema=new mongoose.Schema({
         enum:["Male", "Female"]
     },
     Appointment_date:{
-        type:String,
+        type:Date,
         required :true,
     },
     Department:{
