@@ -102,7 +102,7 @@ export const deleteAppointment=catchAsyncErrors(async(req,res,next)=>{
         return next(new ErrorHandler(404,"Appointment Not Found"))
     }
 
-    await AppointmentModel.findByIdAndDelete(id);
+    await AppointmentModel.deleteOne()
     res.status(200).json({
         success:true,
         message:"Message Deleted SuccessFully"
