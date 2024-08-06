@@ -49,7 +49,7 @@ export const postAppointment=catchAsyncErrors(async(req,res,next)=>{
 
     return res.status(200).json({
         success:true,
-        message:"Doctor Registered Successfully",
+        message:"Appointment Sent Successfully",
         dbEntry
     })
 
