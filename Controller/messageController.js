@@ -10,6 +10,7 @@ export const sendMessage=catchAsyncErrors(async(req,res,next)=>{
 
     // check if above parameters exists or not
 
+    
     if(!FirstName || !LastName || !Email || !Phone || !message){
         // return res.status(401).json({
         //     success:false,

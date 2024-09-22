@@ -15,6 +15,24 @@ import { errorMiddleware } from "./MiddleWares/errorMiddleWare.js";
 
 const app = express();
 
+
+app.use(cors(
+  {
+    origin: ['http://localhost:5173', process.env.FRONTEND_URL_TWO],
+    method: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true,
+    
+  }
+))
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 const PORT=process.env.PORT || 6000
 app.listen(PORT, () => {
   console.log(`server liteneing on post https://localhost:${PORT}`);
@@ -42,13 +60,8 @@ app.listen(PORT, () => {
     // app.use(cors(corsOptions));
 
 
-    const corsOptions={
-      origin:[process.env.FRONTEND_URL,process.env.DASHBOARD_URL],
-      methods:["GET","POST","PUT","DELETE"],
-      credentials:true
-    }
-    app.use(cors(corsOptions))
-
+    
+  
     app.use(express.urlencoded({extended:true}))
     // express.urlencoded() uses querystring library is used to parse urlencoded data and parse nested objects(i.e objects within objects )
 
