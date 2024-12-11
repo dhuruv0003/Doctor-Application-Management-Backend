@@ -6,7 +6,6 @@ import { deleteAppointment, getAllAppointments, postAppointment, updateAppointme
 // an appointment can be post by a patient only
 router.post('/post',isPatientAuthentication,postAppointment)
 router.get('/getAll',isAdminAuthentication,getAllAppointments)
-
 router.put('/update/:id',isAdminAuthentication,updateAppointmentStatus)
 
 router.delete('/delete/:id',isAdminAuthentication,deleteAppointment)
