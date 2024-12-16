@@ -54,7 +54,8 @@ import cloudinary from 'cloudinary'
 
   export const userLogin = catchAsyncErrors(async (req, res, next) => {
         const { Email, Password, Role } = req.body;
-
+      console.log('hello');
+      
         if (!Email || !Password || !Role) {
           return next(new ErrorHandler(400, "Please fill details properly"));
         }
